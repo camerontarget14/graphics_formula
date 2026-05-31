@@ -1,15 +1,15 @@
 const BACKGROUND = "#282828";
-const FOREGROUND = "#FF69B4";
+const FOREGROUND = "#009AFF";
 
-console.log(game);
-game.width = 800;
-game.height = 800;
-const ctx = game.getContext("2d");
+console.log(vfx);
+vfx.width = 800;
+vfx.height = 800;
+const ctx = vfx.getContext("2d");
 console.log(ctx);
 
 function clear() {
   ctx.fillStyle = BACKGROUND;
-  ctx.fillRect(0, 0, game.width, game.height);
+  ctx.fillRect(0, 0, vfx.width, vfx.height);
 }
 
 function point({ x, y }) {
@@ -30,8 +30,8 @@ function line(p1, p2) {
 function screen(p) {
   // -1..1 => 0..2 => 0..1 => 0..w
   return {
-    x: ((p.x + 1) / 2) * game.width,
-    y: (1 - (p.y + 1) / 2) * game.height,
+    x: ((p.x + 1) / 2) * vfx.width,
+    y: (1 - (p.y + 1) / 2) * vfx.height,
   };
 }
 
@@ -66,13 +66,13 @@ function frame() {
   // dz += 1*dt;
   angle += Math.PI * dt;
   clear();
-  // for (const v of vs) {
+  // for (const v of vertices) {
   //     point(screen(project(translate_z(rotate_xz(v, angle), dz))))
   // }
-  for (const f of fs) {
+  for (const f of faces) {
     for (let i = 0; i < f.length; ++i) {
-      const a = vs[f[i]];
-      const b = vs[f[(i + 1) % f.length]];
+      const a = vertices[f[i]];
+      const b = vertices[f[(i + 1) % f.length]];
       line(
         screen(project(translate_z(rotate_xz(a, angle), dz))),
         screen(project(translate_z(rotate_xz(b, angle), dz))),
